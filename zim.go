@@ -63,7 +63,7 @@ func NewReader(path string, mmap bool) (*ZimReader, error) {
 	return &z, err
 }
 
-// Return an ordered list of mime types present in the ZIM file
+// MimeTypes returns an ordered list of mime types present in the ZIM file
 func (z *ZimReader) MimeTypes() []string {
 	if len(z.mimeTypeList) != 0 {
 		return z.mimeTypeList
@@ -158,7 +158,7 @@ func (z *ZimReader) ListTitlesPtrIterator(cb func(uint32)) {
 	}
 }
 
-// return the article at the exact url not using any index
+// GetPageNoIndex returns the article at the exact url not using any index
 func (z *ZimReader) GetPageNoIndex(url string) (*Article, error) {
 	// starting at 1 to avoid "con" entry
 	var start uint32
@@ -195,7 +195,7 @@ func (z *ZimReader) GetPageNoIndex(url string) (*Article, error) {
 	return nil, errors.New("article not found")
 }
 
-// get the offset pointing to Article at pos in the URL idx
+// OffsetAtURLIdx gets the offset pointing to Article at pos in the URL idx
 func (z *ZimReader) OffsetAtURLIdx(idx uint32) (uint64, error) {
 	offset := z.urlPtrPos + uint64(idx)*8
 	return readInt64(z.bytesRangeAt(offset, offset+8))

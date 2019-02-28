@@ -55,7 +55,7 @@ func (z *ZimReader) ArticleAtURLIdx(idx uint32) (*Article, error) {
 	return z.ArticleAt(o)
 }
 
-// return the article main page if it exists
+// MainPage returns the article main page if it exists
 func (z *ZimReader) MainPage() (*Article, error) {
 	if z.mainPage == 0xffffffff {
 		return nil, nil
@@ -63,7 +63,7 @@ func (z *ZimReader) MainPage() (*Article, error) {
 	return z.ArticleAtURLIdx(z.mainPage)
 }
 
-// get the article (Directory) pointed by the offset found in URLpos or Titlepos
+// ArticleAt gets the article (Directory) pointed by the offset found in URLpos or Titlepos
 func (z *ZimReader) ArticleAt(offset uint64) (*Article, error) {
 	a := articlePool.Get().(*Article)
 	err := z.FillArticleAt(a, offset)
@@ -146,7 +146,7 @@ func (z *ZimReader) FillArticleAt(a *Article, offset uint64) error {
 	return nil
 }
 
-// return the uncompressed data associated with this article
+// Data returns the uncompressed data associated with this article
 func (a *Article) Data() ([]byte, error) {
 	// ensure we have data to read
 	if a.EntryType == RedirectEntry || a.EntryType == LinkTargetEntry || a.EntryType == DeletedEntry {
@@ -249,7 +249,7 @@ func (a *Article) MimeType() string {
 	return a.z.mimeTypeList[a.EntryType]
 }
 
-// return the url prefixed by the namespace
+// FullURL returns the url prefixed by the namespace
 func (a *Article) FullURL() string {
 	return string(a.Namespace) + "/" + a.url
 }
